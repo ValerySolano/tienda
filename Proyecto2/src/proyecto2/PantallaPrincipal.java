@@ -71,6 +71,11 @@ public class PantallaPrincipal extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tablaDepartamentos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaDepartamentosMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tablaDepartamentos);
         if (tablaDepartamentos.getColumnModel().getColumnCount() > 0) {
             tablaDepartamentos.getColumnModel().getColumn(0).setResizable(false);
@@ -149,6 +154,13 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         pantallaAgregarDepartamento.setVisible(true);
     }//GEN-LAST:event_btnNuevoDepartamentoActionPerformed
 
+    private void tablaDepartamentosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaDepartamentosMouseClicked
+        // TODO add your handling code here:
+        System.out.println("Fila seleccionada: " + tablaDepartamentos.getSelectedRow());
+        ListadoArticulos listadoArticulos = new ListadoArticulos(this.listaDepartamentos[tablaDepartamentos.getSelectedRow()]);
+        listadoArticulos.setVisible(true);
+    }//GEN-LAST:event_tablaDepartamentosMouseClicked
+
     public Departamento[] getListaDepartamentos() {
         return this.listaDepartamentos;
     }
@@ -175,18 +187,19 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         }
         if (ultimoIndex == -1) {
             this.jLabelMensaje.setText("No hay departamentos para eliminar.");
-            javax.swing.JOptionPane.showMessageDialog(this, "No hay departamentos para eliminar.", "Eliminar departamento", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+            this.jLabelMensaje.setForeground(new java.awt.Color(255, 0, 0));
             return;
         }
         Departamento ultimo = this.listaDepartamentos[ultimoIndex];
         if (ultimo.tieneArticulos()) {
             this.jLabelMensaje.setText("No se puede eliminar el departamento '" + ultimo.getNombre() + "' porque tiene artículos asociados.");
-            javax.swing.JOptionPane.showMessageDialog(this, "No se puede eliminar el departamento '" + ultimo.getNombre() + "' porque tiene artículos asociados.", "Eliminar departamento", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+            this.jLabelMensaje.setForeground(new java.awt.Color(255, 0, 0));
             return;
         }
         // Eliminar (LIFO)
         this.listaDepartamentos[ultimoIndex] = null;
         this.jLabelMensaje.setText("Departamento eliminado correctamente.");
+        this.jLabelMensaje.setForeground(new java.awt.Color(0, 153, 0));
         cargarTablaDepartamentos();
     }
 

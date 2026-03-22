@@ -63,6 +63,11 @@ public class PantallaAgregarDepartamento extends javax.swing.JFrame {
         jBtnCancelar.setBackground(new java.awt.Color(255, 204, 204));
         jBtnCancelar.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         jBtnCancelar.setText("Cancelar");
+        jBtnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnCancelarActionPerformed(evt);
+            }
+        });
 
         jBtnAgregar.setBackground(new java.awt.Color(255, 255, 204));
         jBtnAgregar.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
@@ -98,10 +103,15 @@ public class PantallaAgregarDepartamento extends javax.swing.JFrame {
 
         jLabel2.setText("Nombre");
 
+        jTxtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTxtNombreKeyPressed(evt);
+            }
+        });
+
         jLabel1.setText("ID");
 
         jTxtID.setEditable(false);
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -168,11 +178,25 @@ public class PantallaAgregarDepartamento extends javax.swing.JFrame {
             logicaDepartamentos.agregarDepartamento(id, nombre);
             jLabelError.setText("Departamento agregado exitosamente.");
             jLabelError.setForeground(new java.awt.Color(0, 153, 0)); // Verde para éxito
+            jTxtNombre.setText(""); // Limpiar campo de nombre después de agregar
+            jTxtNombre.requestFocus(); // Enfocar el campo de nombre para agregar otro departamento
+            // Actualizar id
+            jTxtID.setText(""+(this.logicaDepartamentos.getTamano() + 1));
         } else {
             jLabelError.setText("ID y Nombre no pueden estar vacíos.");
             jLabelError.setForeground(new java.awt.Color(255, 0, 0)); // Rojo para error
         }
     }//GEN-LAST:event_jBtnAgregarActionPerformed
+
+    private void jTxtNombreKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTxtNombreKeyPressed
+        // TODO add your handling code here:
+        this.jLabelError.setText(""); // Limpiar mensaje de error al escribir
+    }//GEN-LAST:event_jTxtNombreKeyPressed
+
+    private void jBtnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnCancelarActionPerformed
+            // TODO add your handling code here:
+        this.dispose(); // Cerrar la ventana actual
+    }//GEN-LAST:event_jBtnCancelarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
