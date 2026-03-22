@@ -150,20 +150,31 @@ public class PantallaPrincipal extends javax.swing.JFrame {
 
     private void btnNuevoDepartamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoDepartamentoActionPerformed
                      // TODO add your handling code here:
-        PantallaAgregarDepartamento pantallaAgregarDepartamento = new PantallaAgregarDepartamento(this);
+        PantallaAgregarDepartamento pantallaAgregarDepartamento = new PantallaAgregarDepartamento(this.listaDepartamentos);
         pantallaAgregarDepartamento.setVisible(true);
+        // agregar evento para cuando se cierre la ventana de pantallaAgregarDepartamento para refrescar la tabla de departamentos
+        pantallaAgregarDepartamento.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent e) {
+                cargarTablaDepartamentos();
+            }
+        });
     }//GEN-LAST:event_btnNuevoDepartamentoActionPerformed
 
     private void tablaDepartamentosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaDepartamentosMouseClicked
         // TODO add your handling code here:
         System.out.println("Fila seleccionada: " + tablaDepartamentos.getSelectedRow());
-        ListadoArticulos listadoArticulos = new ListadoArticulos(this.listaDepartamentos[tablaDepartamentos.getSelectedRow()]);
-        listadoArticulos.setVisible(true);
+        int cantidadArticulos = contarArticulos();
+        ListaArticulos listaArticulos = new ListaArticulos(this.listaDepartamentos[tablaDepartamentos.getSelectedRow()], cantidadArticulos);
+        listaArticulos.setVisible(true);
+        // agregar evento para cuando se cierre la ventana de listaArticulos para refrescar la tabla de departamentos
+        listaArticulos.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent e) {
+                cargarTablaDepartamentos();
+            }
+        });
     }//GEN-LAST:event_tablaDepartamentosMouseClicked
-
-    public Departamento[] getListaDepartamentos() {
-        return this.listaDepartamentos;
-    }
 
     public void cargarTablaDepartamentos() {
         javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) this.tablaDepartamentos.getModel();
@@ -201,6 +212,17 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         this.jLabelMensaje.setText("Departamento eliminado correctamente.");
         this.jLabelMensaje.setForeground(new java.awt.Color(0, 153, 0));
         cargarTablaDepartamentos();
+    }
+    public int contarArticulos(){
+        int contador = 0;
+        for (Departamento d : this.listaDepartamentos) {
+           for (Articulo a : d.getArticulos()) {
+               if (a != null) {
+                contador++;
+               }
+           }
+        }
+        return contador;
     }
 
     /**

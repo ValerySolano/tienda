@@ -8,14 +8,21 @@ package proyecto2;
  *
  * @author Valery
  */
-public class PantallaArticulos extends javax.swing.JFrame {
+public class PantallaAgregarArticulos extends javax.swing.JFrame {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(PantallaArticulos.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(PantallaAgregarArticulos.class.getName());
 
     /**
      * Creates new form PantallaArticulos
      */
-    public PantallaArticulos() {
+    private Departamento departamento;
+    private ArticulosLogica logicaArticulos;
+    private int tamanoArticulos;
+    public PantallaAgregarArticulos(Departamento departamento, int tamanoArticulos) {
+        this.departamento = departamento;
+        this.tamanoArticulos = tamanoArticulos;
+        this.logicaArticulos = new ArticulosLogica(departamento.getArticulos());
+        jTxtId.setText(String.valueOf(tamanoArticulos + 1)); // ID autogenerado
         initComponents();
     }
 
@@ -31,39 +38,40 @@ public class PantallaArticulos extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        jBtnCancelar = new javax.swing.JButton();
+        jBtnGuardar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
+        jTxtId = new javax.swing.JTextField();
+        jTxtNombre = new javax.swing.JTextField();
+        jComboCategoria = new javax.swing.JComboBox<>();
+        jLabel4 = new javax.swing.JLabel();
+        jLabelMensaje = new javax.swing.JLabel();
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
         jScrollPane1.setViewportView(jTextArea1);
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jButton1.setBackground(new java.awt.Color(255, 204, 204));
-        jButton1.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        jButton1.setText("Cancelar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jBtnCancelar.setBackground(new java.awt.Color(255, 204, 204));
+        jBtnCancelar.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        jBtnCancelar.setText("Cancelar");
+        jBtnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jBtnCancelarActionPerformed(evt);
             }
         });
 
-        jButton2.setBackground(new java.awt.Color(255, 255, 204));
-        jButton2.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        jButton2.setText("Guardar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        jBtnGuardar.setBackground(new java.awt.Color(255, 255, 204));
+        jBtnGuardar.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        jBtnGuardar.setText("Guardar");
+        jBtnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                jBtnGuardarActionPerformed(evt);
             }
         });
 
@@ -73,9 +81,9 @@ public class PantallaArticulos extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jBtnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)
+                .addComponent(jBtnGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -83,8 +91,8 @@ public class PantallaArticulos extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jBtnGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+                    .addComponent(jBtnCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(0, 18, Short.MAX_VALUE))
         );
 
@@ -118,18 +126,20 @@ public class PantallaArticulos extends javax.swing.JFrame {
                 .addContainerGap(19, Short.MAX_VALUE))
         );
 
-        jTextField1.setFont(new java.awt.Font("Times New Roman", 1, 20)); // NOI18N
-        jTextField1.setText("   Agregar nuevo Articulo");
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
-            }
-        });
-
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        jPanel3.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 16, 220, -1));
-        jPanel3.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 68, 220, -1));
-        jPanel3.add(jTextField4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 124, 220, -1));
+
+        jTxtId.setEditable(false);
+        jTxtId.setEnabled(false);
+        jPanel3.add(jTxtId, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 8, 220, 30));
+        jPanel3.add(jTxtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 220, 40));
+
+        jComboCategoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ropa y accesorios", "Electrónica", "Hogar y muebles", "Belleza y cuidado personal", "Deportes y aire libre", "Juguetes y juegos", "Alimentos y bebidas" }));
+        jPanel3.add(jComboCategoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 112, 220, 40));
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel4.setText(" Agregar nuevo Artículo");
+
+        jLabelMensaje.setText("hola");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -138,48 +148,71 @@ public class PantallaArticulos extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(51, 51, 51)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 273, Short.MAX_VALUE)
+                .addGap(12, 12, 12))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(44, 44, 44))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(55, 55, 55))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(92, 92, 92))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabelMensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(55, 55, 55))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(9, 9, 9)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabelMensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(21, 21, 21)
+                        .addGap(21, 21, 21))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jBtnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnCancelarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jBtnCancelarActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void jBtnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnGuardarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+        String idText = jTxtId.getText().trim();
+        String nombre = jTxtNombre.getText().trim();
+        int categoria = jComboCategoria.getSelectedIndex();
+        String error = logicaArticulos.validarDatos(idText, nombre, String.valueOf(categoria));
+        if (error != null) {
+            jLabelMensaje.setText(error);
+            jLabelMensaje.setForeground(new java.awt.Color(255, 0, 0)); // Rojo para errores
+        } else {
+            int id = Integer.parseInt(idText);
+            Articulo nuevoArticulo = new Articulo(id, nombre, categoria);
+            logicaArticulos.agregarArticulo(nuevoArticulo);
+            this.departamento.getArticulos()[this.departamento.tieneArticulos() ? this.departamento.tieneArticulos() ? this.departamento.tieneArticulos() ? 0 : 0 : 0 : 0] = nuevoArticulo; // Agregar a la cola del departamento
+            jLabelMensaje.setText("Artículo agregado exitosamente");
+            jLabelMensaje.setForeground(new java.awt.Color(0, 128, 0));
+            tamanoArticulos++; // Incrementar el tamaño para el siguiente artículo
+            jTxtId.setText(String.valueOf(tamanoArticulos)); // Preparar siguiente ID
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+        }
+
+
+    }//GEN-LAST:event_jBtnGuardarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -203,23 +236,24 @@ public class PantallaArticulos extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new PantallaArticulos().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new PantallaAgregarArticulos().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jBtnCancelar;
+    private javax.swing.JButton jBtnGuardar;
+    private javax.swing.JComboBox<String> jComboCategoria;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    public javax.swing.JLabel jLabelMensaje;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField jTxtId;
+    private javax.swing.JTextField jTxtNombre;
     // End of variables declaration//GEN-END:variables
 }

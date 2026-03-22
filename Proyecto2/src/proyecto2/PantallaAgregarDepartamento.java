@@ -18,22 +18,14 @@ public class PantallaAgregarDepartamento extends javax.swing.JFrame {
      */
     private Departamento[] datosIniciales;
     private DepartamentosLogica logicaDepartamentos;
-    private PantallaPrincipal parent;
-    public PantallaAgregarDepartamento(PantallaPrincipal parent) {
-        this.parent = parent;
-        this.datosIniciales = parent.getListaDepartamentos();
+    public PantallaAgregarDepartamento(Departamento[] datosIniciales) {
+        this.datosIniciales = datosIniciales;
         this.logicaDepartamentos = new DepartamentosLogica(this.datosIniciales);
         initComponents();
         this.jTxtID.setText(""+(this.logicaDepartamentos.getTamano() + 1)); // Sugerencia de ID basado en el número actual de departamentos
         this.jLabelError.setText(""); // Limpiar mensaje de error al iniciar
         this.jTxtNombre.setText(""); // Limpiar campo de nombre al iniciar
         this.jTxtNombre.requestFocus(); // Enfocar el campo de nombre al iniciar
-        this.addWindowListener(new java.awt.event.WindowAdapter() {
-            @Override
-            public void windowClosed(java.awt.event.WindowEvent e) {
-                if (parent != null) parent.cargarTablaDepartamentos();
-            }
-        });
     }
 
     /**
@@ -112,6 +104,8 @@ public class PantallaAgregarDepartamento extends javax.swing.JFrame {
         jLabel1.setText("ID");
 
         jTxtID.setEditable(false);
+        jTxtID.setEnabled(false);
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
