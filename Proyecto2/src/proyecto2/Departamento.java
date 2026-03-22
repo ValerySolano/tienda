@@ -55,5 +55,17 @@ public class Departamento {
         this.articulos[this.articulosTamano++] = a;
     }
 
+    public Articulo eliminarPrimerArticulo() {
+        if (this.articulosTamano == 0) return null;
+        Articulo eliminado = this.articulos[0];
+        // desplazar a la izquierda
+        for (int i = 1; i < this.articulosTamano; i++) {
+            this.articulos[i - 1] = this.articulos[i];
+        }
+        this.articulos[this.articulosTamano - 1] = null;
+        this.articulosTamano--;
+        return eliminado;
+    }
+
 
 }

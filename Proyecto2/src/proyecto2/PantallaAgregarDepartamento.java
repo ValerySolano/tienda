@@ -187,7 +187,7 @@ public class PantallaAgregarDepartamento extends javax.swing.JFrame {
         this.jLabelError.setText(""); // Limpiar mensaje de error al escribir
     }//GEN-LAST:event_jTxtNombreKeyPressed
 
-    private void jBtnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnCancelarActionPerformed
+    private void jBtnCancelarActionPerformed(java.awt.event.ActionEvent evt) {
             // TODO add your handling code here:
         this.dispose(); // Cerrar la ventana actual
     }//GEN-LAST:event_jBtnCancelarActionPerformed

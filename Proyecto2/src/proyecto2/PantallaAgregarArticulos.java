@@ -31,14 +31,6 @@ public class PantallaAgregarArticulos extends javax.swing.JFrame {
         jTxtId.setText(String.valueOf(tamanoArticulos + 1)); // ID autogenerado
     }
 
-    public PantallaAgregarArticulos() {
-        this(new Departamento("0", "Default"), 0);
-    }
-
-    public PantallaAgregarArticulos(ListaArticulos listaPadre, Departamento departamento, int tamanoArticulos) {
-        this(departamento, tamanoArticulos);
-        this.listaPadre = listaPadre;
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -145,6 +137,12 @@ public class PantallaAgregarArticulos extends javax.swing.JFrame {
         jTxtId.setEditable(false);
         jTxtId.setEnabled(false);
         jPanel3.add(jTxtId, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 8, 220, 30));
+
+        jTxtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTxtNombreKeyPressed(evt);
+            }
+        });
         jPanel3.add(jTxtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 220, 40));
 
         jComboCategoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ropa y accesorios", "Electrónica", "Hogar y muebles", "Belleza y cuidado personal", "Deportes y aire libre", "Juguetes y juegos", "Alimentos y bebidas" }));
@@ -199,12 +197,16 @@ public class PantallaAgregarArticulos extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jBtnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnCancelarActionPerformed
-        // TODO add your handling code here:
-        this.dispose();
-    }//GEN-LAST:event_jBtnCancelarActionPerformed
+    private void jTxtNombreKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTxtNombreKeyPressed
+       // TODO add your handling code here:
+         this.jLabelMensaje.setText(""); // Limpiar mensaje de error al escribir
+    }//GEN-LAST:event_jTxtNombreKeyPressed
 
-    private void jBtnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnGuardarActionPerformed
+    private void jBtnCancelarActionPerformed(java.awt.event.ActionEvent evt) {
+        this.dispose();
+    }                                            
+
+    private void jBtnGuardarActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
         String idText = jTxtId.getText().trim();
         String nombre = jTxtNombre.getText().trim();
@@ -220,15 +222,14 @@ public class PantallaAgregarArticulos extends javax.swing.JFrame {
             this.departamento.agregarArticulo(nuevoArticulo);
             jLabelMensaje.setText("Artículo agregado exitosamente");
             jLabelMensaje.setForeground(new java.awt.Color(0, 128, 0));
-            tamanoArticulos++; // Incrementar el tamaño para el siguiente artículo
-            jTxtId.setText(String.valueOf(tamanoArticulos)); // Preparar siguiente ID
-            if (this.listaPadre != null) {
-                this.listaPadre.agregarArticuloEnTabla(nuevoArticulo);
-            }
+            this.tamanoArticulos = this.tamanoArticulos + 1; // Incrementar el tamaño para el siguiente artículo
+            System.out.println("Artículo agregado: ID=" + id + ", Nombre=" + nombre + ", Categoría=" + categoria);
+            jTxtId.setText(String.valueOf(this.tamanoArticulos)); // Preparar siguiente ID
+            jTxtNombre.setText(""); // Limpiar campo de nombre
         }
 
 
-    }//GEN-LAST:event_jBtnGuardarActionPerformed
+    }                                           
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBtnCancelar;

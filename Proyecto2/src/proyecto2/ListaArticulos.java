@@ -160,12 +160,37 @@ public class ListaArticulos extends javax.swing.JFrame {
     System.out.println("Botón 'Nuevo Artículo' presionado para departamento: " + departamento.getNombre());
         PantallaAgregarArticulos pantallaAgregarArticulo = new PantallaAgregarArticulos(this, this.departamento, this.tamanoArticulos);
         pantallaAgregarArticulo.setVisible(true);
+        pantallaAgregarArticulo.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent e) {
+s                // refrescar la tabla completa
+                refrescarTabla();
+            }
+         });
     }//GEN-LAST:event_btnNuevoActionPerformed
 
+    private void refrescarTabla() {
+        javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) jTable1.getModel();
+        // limpiar filas
+        model.setRowCount(0);
+        Articulo[] arr = this.departamento.getArticulos();
+        int limit = this.departamento.getArticulosTamano();
+        for (int i = 0; i < limit && i < arr.length; i++) {
+            if (arr[i] != null) {
+                model.addRow(new Object[]{String.valueOf(arr[i].getId()), arr[i].getNombre(), categoriaToString(arr[i].getCategoria())});
+            }
+        }
+    }
+
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        // Logica para eliminar articulo        
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnEliminarActionPerformed
+        Articulo eliminado = this.departamento.eliminarPrimerArticulo();
+        if (eliminado != null) {
+            // actualizar tamaño local
+            this.tamanoArticulos = this.departamento.getArticulosTamano();
+            // refrescar la tabla completa
+            refrescarTabla();
+        }
+    }
 
     public void agregarArticuloEnTabla(Articulo a) {
         javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) jTable1.getModel();
