@@ -1,0 +1,15 @@
+./Proyecto2/build
+
+# NetBeans IDE files
+Proyecto2/nbproject/private/
+Proyecto2/nbbuild/
+Proyecto2/dist/
+Proyecto2/nbdist/
+Proyecto2/build/
+Proyecto2/nbproject/
+Proyecto2/.netbeans/
+Proyecto2/*.class
+Proyecto2/*.log
+Proyecto2/*.jar
+Proyecto2/*.war
+Proyecto2/*.ear
