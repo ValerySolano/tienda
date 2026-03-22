@@ -28,7 +28,7 @@ public class PantallaAgregarArticulos extends javax.swing.JFrame {
         }
         this.tamanoArticulos = tamanoArticulos;
         this.logicaArticulos = new ArticulosLogica(this.departamento.getArticulos());
-        jTxtId.setText(String.valueOf(tamanoArticulos + 1)); // ID autogenerado
+        jTxtId.setText(String.valueOf(Articulo.getNextId())); // ID autogenerado global
     }
 
 
@@ -208,15 +208,14 @@ public class PantallaAgregarArticulos extends javax.swing.JFrame {
 
     private void jBtnGuardarActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
-        String idText = jTxtId.getText().trim();
         String nombre = jTxtNombre.getText().trim();
         int categoria = jComboCategoria.getSelectedIndex();
-        String error = logicaArticulos.validarDatos(idText, nombre, String.valueOf(categoria));
+        String error = logicaArticulos.validarDatos(String.valueOf(Articulo.getNextId()), nombre, String.valueOf(categoria));
         if (error != null) {
             jLabelMensaje.setText(error);
             jLabelMensaje.setForeground(new java.awt.Color(255, 0, 0)); // Rojo para errores
         } else {
-            int id = Integer.parseInt(idText);
+            int id = Articulo.consumeNextId();
             Articulo nuevoArticulo = new Articulo(id, nombre, categoria);
             logicaArticulos.agregarArticulo(nuevoArticulo);
             this.departamento.agregarArticulo(nuevoArticulo);
@@ -224,7 +223,7 @@ public class PantallaAgregarArticulos extends javax.swing.JFrame {
             jLabelMensaje.setForeground(new java.awt.Color(0, 128, 0));
             this.tamanoArticulos = this.tamanoArticulos + 1; // Incrementar el tamaño para el siguiente artículo
             System.out.println("Artículo agregado: ID=" + id + ", Nombre=" + nombre + ", Categoría=" + categoria);
-            jTxtId.setText(String.valueOf(this.tamanoArticulos)); // Preparar siguiente ID
+            jTxtId.setText(String.valueOf(Articulo.getNextId())); // Preparar siguiente ID global
             jTxtNombre.setText(""); // Limpiar campo de nombre
         }
 

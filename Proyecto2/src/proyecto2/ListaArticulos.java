@@ -157,13 +157,13 @@ public class ListaArticulos extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
-    System.out.println("Botón 'Nuevo Artículo' presionado para departamento: " + departamento.getNombre());
-        PantallaAgregarArticulos pantallaAgregarArticulo = new PantallaAgregarArticulos(this, this.departamento, this.tamanoArticulos);
+        jLabelMensaje.setText(""); // Limpiar mensaje previo
+        PantallaAgregarArticulos pantallaAgregarArticulo = new PantallaAgregarArticulos(this.departamento, this.tamanoArticulos);
         pantallaAgregarArticulo.setVisible(true);
         pantallaAgregarArticulo.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosed(java.awt.event.WindowEvent e) {
-s                // refrescar la tabla completa
+                // refrescar la tabla completa
                 refrescarTabla();
             }
          });
@@ -184,10 +184,13 @@ s                // refrescar la tabla completa
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         Articulo eliminado = this.departamento.eliminarPrimerArticulo();
+        jLabelMensaje.setText(""); // Limpiar mensaje previo
         if (eliminado != null) {
             // actualizar tamaño local
+            jLabelMensaje.setText("Artículo eliminado: " + eliminado.getNombre());
             this.tamanoArticulos = this.departamento.getArticulosTamano();
             // refrescar la tabla completa
+            
             refrescarTabla();
         }
     }

@@ -13,12 +13,24 @@ public class Articulo {
     private int id;
     private String nombre;
     private int categoria;
+    // Generador global de IDs (compartido entre todos los departamentos)
+    private static int nextId = 1;
 
     // Constructor
     public Articulo(int id, String nombre, int categoria) {
         this.id = id;
         this.nombre = nombre;
         this.categoria = categoria;
+    }
+
+    // Devuelve el próximo ID sin consumirlo
+    public static synchronized int getNextId() {
+        return nextId;
+    }
+
+    // Devuelve y consume el próximo ID (post-incremento)
+    public static synchronized int consumeNextId() {
+        return nextId++;
     }
     // Getters y Setters
     public int getId() {

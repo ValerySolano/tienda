@@ -142,7 +142,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Sylfaen", 1, 20)); // NOI18N
         jLabel5.setText("Gestión de Tienda Valery ");
         getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 20, 260, -1));
-        getContentPane().add(jLabelMensaje, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 50, 400, 20));
+        getContentPane().add(jLabelMensaje, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 50, 520, 20));
 
         pack();
         setLocationRelativeTo(null);
