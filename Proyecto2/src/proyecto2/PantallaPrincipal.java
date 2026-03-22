@@ -216,11 +216,13 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     public int contarArticulos(){
         int contador = 0;
         for (Departamento d : this.listaDepartamentos) {
-           for (Articulo a : d.getArticulos()) {
-               if (a != null) {
-                contador++;
-               }
-           }
+            if (d != null) {
+                for (Articulo a : d.getArticulos()) {
+                    if (a != null) {
+                        contador++;
+                    }
+                }
+            }
         }
         return contador;
     }

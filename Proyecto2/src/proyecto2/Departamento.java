@@ -45,5 +45,15 @@ public class Departamento {
         return this.articulosTamano > 0;
     }
 
+    public int getArticulosTamano() {
+        return this.articulosTamano;
+    }
+
+    public void agregarArticulo(Articulo a) {
+        if (a == null) return;
+        if (this.articulosTamano >= this.articulos.length) return;
+        this.articulos[this.articulosTamano++] = a;
+    }
+
 
 }

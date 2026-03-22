@@ -18,9 +18,21 @@ public class ListaArticulos extends javax.swing.JFrame {
     private Departamento departamento;
     private int tamanoArticulos;
     public ListaArticulos(Departamento departamento, int tamanoArticulos) {
-        this.departamento = departamento;
-        this.tamanoArticulos = tamanoArticulos;
         initComponents();
+        if (departamento == null) {
+            this.departamento = new Departamento("0", "Default");
+        } else {
+            this.departamento = departamento;
+        }
+        this.tamanoArticulos = tamanoArticulos;
+        // cargar artículos existentes en la tabla
+        Articulo[] arr = this.departamento.getArticulos();
+        int limit = this.departamento.getArticulosTamano();
+        for (int i = 0; i < limit && i < arr.length; i++) {
+            if (arr[i] != null) {
+                agregarArticuloEnTabla(arr[i]);
+            }
+        }
 
     }
 
@@ -41,8 +53,9 @@ public class ListaArticulos extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jLabelMensaje = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(255, 204, 204));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -63,6 +76,11 @@ public class ListaArticulos extends javax.swing.JFrame {
         btnEliminar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnEliminar.setForeground(new java.awt.Color(255, 255, 255));
         btnEliminar.setText("Eliminar Artículo");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -108,16 +126,31 @@ public class ListaArticulos extends javax.swing.JFrame {
             Class[] types = new Class [] {
                 java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, true, true
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
         });
         jScrollPane2.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setResizable(false);
+            jTable1.getColumnModel().getColumn(1).setResizable(false);
+            jTable1.getColumnModel().getColumn(2).setResizable(false);
+        }
 
         jScrollPane3.setViewportView(jScrollPane2);
 
-        getContentPane().add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 490, 180));
+        getContentPane().add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 490, 180));
+
+        jLabelMensaje.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        getContentPane().add(jLabelMensaje, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 50, 330, -1));
 
         pack();
         setLocationRelativeTo(null);
@@ -125,15 +158,40 @@ public class ListaArticulos extends javax.swing.JFrame {
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
     System.out.println("Botón 'Nuevo Artículo' presionado para departamento: " + departamento.getNombre());
-        PantallaAgregarArticulos pantallaAgregarArticulo = new PantallaAgregarArticulos(this.departamento, this.tamanoArticulos);
+        PantallaAgregarArticulos pantallaAgregarArticulo = new PantallaAgregarArticulos(this, this.departamento, this.tamanoArticulos);
         pantallaAgregarArticulo.setVisible(true);
     }//GEN-LAST:event_btnNuevoActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        // Logica para eliminar articulo        
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    public void agregarArticuloEnTabla(Articulo a) {
+        javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) jTable1.getModel();
+        String categoria = categoriaToString(a.getCategoria());
+        model.addRow(new Object[]{String.valueOf(a.getId()), a.getNombre(), categoria});
+    }
+
+    private String categoriaToString(int idx) {
+        switch (idx) {
+            case 0: return "Ropa y accesorios";
+            case 1: return "Electrónica";
+            case 2: return "Hogar y muebles";
+            case 3: return "Belleza y cuidado personal";
+            case 4: return "Deportes y aire libre";
+            case 5: return "Juguetes y juegos";
+            case 6: return "Alimentos y bebidas";
+            default: return "Desconocida";
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnNuevo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabelMensaje;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;

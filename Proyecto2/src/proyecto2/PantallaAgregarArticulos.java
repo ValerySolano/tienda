@@ -18,12 +18,26 @@ public class PantallaAgregarArticulos extends javax.swing.JFrame {
     private Departamento departamento;
     private ArticulosLogica logicaArticulos;
     private int tamanoArticulos;
+    private ListaArticulos listaPadre;
     public PantallaAgregarArticulos(Departamento departamento, int tamanoArticulos) {
-        this.departamento = departamento;
-        this.tamanoArticulos = tamanoArticulos;
-        this.logicaArticulos = new ArticulosLogica(departamento.getArticulos());
-        jTxtId.setText(String.valueOf(tamanoArticulos + 1)); // ID autogenerado
         initComponents();
+        if (departamento == null) {
+            this.departamento = new Departamento("0", "Default");
+        } else {
+            this.departamento = departamento;
+        }
+        this.tamanoArticulos = tamanoArticulos;
+        this.logicaArticulos = new ArticulosLogica(this.departamento.getArticulos());
+        jTxtId.setText(String.valueOf(tamanoArticulos + 1)); // ID autogenerado
+    }
+
+    public PantallaAgregarArticulos() {
+        this(new Departamento("0", "Default"), 0);
+    }
+
+    public PantallaAgregarArticulos(ListaArticulos listaPadre, Departamento departamento, int tamanoArticulos) {
+        this(departamento, tamanoArticulos);
+        this.listaPadre = listaPadre;
     }
 
     /**
@@ -203,41 +217,18 @@ public class PantallaAgregarArticulos extends javax.swing.JFrame {
             int id = Integer.parseInt(idText);
             Articulo nuevoArticulo = new Articulo(id, nombre, categoria);
             logicaArticulos.agregarArticulo(nuevoArticulo);
-            this.departamento.getArticulos()[this.departamento.tieneArticulos() ? this.departamento.tieneArticulos() ? this.departamento.tieneArticulos() ? 0 : 0 : 0 : 0] = nuevoArticulo; // Agregar a la cola del departamento
+            this.departamento.agregarArticulo(nuevoArticulo);
             jLabelMensaje.setText("Artículo agregado exitosamente");
             jLabelMensaje.setForeground(new java.awt.Color(0, 128, 0));
             tamanoArticulos++; // Incrementar el tamaño para el siguiente artículo
             jTxtId.setText(String.valueOf(tamanoArticulos)); // Preparar siguiente ID
-
+            if (this.listaPadre != null) {
+                this.listaPadre.agregarArticuloEnTabla(nuevoArticulo);
+            }
         }
 
 
     }//GEN-LAST:event_jBtnGuardarActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new PantallaAgregarArticulos().setVisible(true));
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBtnCancelar;

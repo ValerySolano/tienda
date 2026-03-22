@@ -22,10 +22,10 @@ public class PantallaAgregarDepartamento extends javax.swing.JFrame {
         this.datosIniciales = datosIniciales;
         this.logicaDepartamentos = new DepartamentosLogica(this.datosIniciales);
         initComponents();
-        this.jTxtID.setText(""+(this.logicaDepartamentos.getTamano() + 1)); // Sugerencia de ID basado en el número actual de departamentos
-        this.jLabelError.setText(""); // Limpiar mensaje de error al iniciar
-        this.jTxtNombre.setText(""); // Limpiar campo de nombre al iniciar
-        this.jTxtNombre.requestFocus(); // Enfocar el campo de nombre al iniciar
+        jTxtID.setText(""+(this.logicaDepartamentos.getTamano() + 1)); // Sugerencia de ID basado en el número actual de departamentos
+        jLabelError.setText(""); // Limpiar mensaje de error al iniciar
+        jTxtNombre.setText(""); // Limpiar campo de nombre al iniciar
+        jTxtNombre.requestFocus(); // Enfocar el campo de nombre al iniciar
     }
 
     /**
