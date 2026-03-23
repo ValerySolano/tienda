@@ -101,6 +101,11 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         btnTrasladoArticulos.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnTrasladoArticulos.setForeground(new java.awt.Color(255, 255, 255));
         btnTrasladoArticulos.setText("Traslado Artículos");
+        btnTrasladoArticulos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTrasladoArticulosActionPerformed(evt);
+            }
+        });
 
         btnEliminarDepartamento.setBackground(new java.awt.Color(255, 0, 0));
         btnEliminarDepartamento.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -175,6 +180,12 @@ public class PantallaPrincipal extends javax.swing.JFrame {
             }
         });
     }//GEN-LAST:event_tablaDepartamentosMouseClicked
+
+    private void btnTrasladoArticulosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTrasladoArticulosActionPerformed
+            // TODO add your handling code here:
+        PantallaTraslado pantallaTraslado = new PantallaTraslado(this.listaDepartamentos);
+        pantallaTraslado.setVisible(true);
+    }//GEN-LAST:event_btnTrasladoArticulosActionPerformed
 
     public void cargarTablaDepartamentos() {
         javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) this.tablaDepartamentos.getModel();

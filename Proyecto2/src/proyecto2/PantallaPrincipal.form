@@ -149,6 +149,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Traslado Art&#xed;culos"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnTrasladoArticulosActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnEliminarDepartamento">
           <Properties>
