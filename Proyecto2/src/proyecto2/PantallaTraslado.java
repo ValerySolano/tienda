@@ -19,6 +19,12 @@ public class PantallaTraslado extends javax.swing.JFrame {
     public PantallaTraslado(Departamento[] departamentos) {
         this.departamentos = departamentos;
         initComponents();
+        poblarCombos();
+        jBtnTraslado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnTrasladoActionPerformed(evt);
+            }
+        });
     }
 
     /**
@@ -126,4 +132,61 @@ public class PantallaTraslado extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     // End of variables declaration//GEN-END:variables
+
+    private void poblarCombos() {
+        jComboBoxOrigen.removeAllItems();
+        jComboBoxDestino.removeAllItems();
+        if (this.departamentos == null) return;
+        for (int i = 0; i < this.departamentos.length; i++) {
+            Departamento d = this.departamentos[i];
+            if (d != null) {
+                String texto = d.getId() + " - " + d.getNombre();
+                jComboBoxOrigen.addItem(texto);
+                jComboBoxDestino.addItem(texto);
+            }
+        }
+    }
+
+    private void jBtnTrasladoActionPerformed(java.awt.event.ActionEvent evt) {
+        jLabelMensaje.setText("");
+        if (this.departamentos == null || this.departamentos.length < 2) {
+            jLabelMensaje.setText("La pila de departamentos debe tener al menos 2 elementos.");
+            jLabelMensaje.setForeground(new java.awt.Color(255, 0, 0));
+            return;
+        }
+        int origenIdx = jComboBoxOrigen.getSelectedIndex();
+        int destinoIdx = jComboBoxDestino.getSelectedIndex();
+        if (origenIdx == -1 || destinoIdx == -1) {
+            jLabelMensaje.setText("Seleccione departamento origen y destino.");
+            jLabelMensaje.setForeground(new java.awt.Color(255, 0, 0));
+            return;
+        }
+        if (origenIdx == destinoIdx) {
+            jLabelMensaje.setText("Origen y destino no pueden ser el mismo.");
+            jLabelMensaje.setForeground(new java.awt.Color(255, 0, 0));
+            return;
+        }
+        Departamento origen = this.departamentos[origenIdx];
+        Departamento destino = this.departamentos[destinoIdx];
+        if (origen == null || destino == null) {
+            jLabelMensaje.setText("Departamento inválido.");
+            jLabelMensaje.setForeground(new java.awt.Color(255, 0, 0));
+            return;
+        }
+        if (!origen.tieneArticulos()) {
+            jLabelMensaje.setText("El departamento origen no tiene artículos.");
+            jLabelMensaje.setForeground(new java.awt.Color(255, 0, 0));
+            return;
+        }
+        int trasladados = 0;
+        while (origen.tieneArticulos()) {
+            Articulo a = origen.eliminarPrimerArticulo();
+            if (a == null) break;
+            destino.agregarArticulo(a);
+            trasladados++;
+        }
+        jLabelMensaje.setText("Traslado completado. Artículos trasladados: " + trasladados);
+        jLabelMensaje.setForeground(new java.awt.Color(0, 153, 0));
+    }
+
 }

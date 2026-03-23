@@ -22,7 +22,6 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         this.listaDepartamentos = new Departamento[20]; // Capacidad inicial de 20 departamentos
         initComponents();
         cargarTablaDepartamentos();
-        this.btnEliminarDepartamento.addActionListener(evt -> eliminarUltimoDepartamento());
     }
 
     /**
@@ -111,6 +110,11 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         btnEliminarDepartamento.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnEliminarDepartamento.setForeground(new java.awt.Color(255, 255, 255));
         btnEliminarDepartamento.setText("Eliminar Departamento");
+        btnEliminarDepartamento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarDepartamentoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -155,6 +159,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
 
     private void btnNuevoDepartamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoDepartamentoActionPerformed
                      // TODO add your handling code here:
+        jLabelMensaje.setText("");
         PantallaAgregarDepartamento pantallaAgregarDepartamento = new PantallaAgregarDepartamento(this.listaDepartamentos);
         pantallaAgregarDepartamento.setVisible(true);
         // agregar evento para cuando se cierre la ventana de pantallaAgregarDepartamento para refrescar la tabla de departamentos
@@ -183,9 +188,24 @@ public class PantallaPrincipal extends javax.swing.JFrame {
 
     private void btnTrasladoArticulosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTrasladoArticulosActionPerformed
             // TODO add your handling code here:
+        int departamentosConArticulos = 0;
+        for (Departamento d : this.listaDepartamentos) {
+            if (d != null && d.tieneArticulos()) {
+                departamentosConArticulos++;
+            }
+        }
+        if (this.listaDepartamentos == null || departamentosConArticulos < 2) {
+            this.jLabelMensaje.setText("La pila de departamentos debe tener al menos 2  con artículos para realizar un traslado.");
+            this.jLabelMensaje.setForeground(new java.awt.Color(255, 0, 0));
+            return;
+        }
         PantallaTraslado pantallaTraslado = new PantallaTraslado(this.listaDepartamentos);
         pantallaTraslado.setVisible(true);
     }//GEN-LAST:event_btnTrasladoArticulosActionPerformed
+
+    private void btnEliminarDepartamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarDepartamentoActionPerformed
+     eliminarUltimoDepartamento();        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEliminarDepartamentoActionPerformed
 
     public void cargarTablaDepartamentos() {
         javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) this.tablaDepartamentos.getModel();
